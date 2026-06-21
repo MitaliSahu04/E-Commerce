@@ -45,10 +45,10 @@ useEffect(()=>{
         <h1 className="text-3xl font-bold mb-6">Products</h1>
 
         {/* Product Cards Here */}
-
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {productData.map((product)=>{
           return(
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+           
           <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
           <img
             src={product.images[0]}
@@ -73,15 +73,15 @@ useEffect(()=>{
               &#8377;{product.price}
               </span>
 
-              <button className="bg-black text-white px-4 py-2 rounded-lg">
+              <button className="bg-rose-400 text-white px-4 py-2 rounded-lg">
                 Add to Cart
               </button>
             </div>
           </div>
         </div> 
-        </div>
+        
           )
-        })}
+        })}</div>
 
       </div>}
      
