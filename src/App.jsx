@@ -7,6 +7,7 @@ import Home from "./Pages/Home";
 import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
 import About from "./Pages/About";
+import CategoryPages from "./Pages/CategoryPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />
+      },
+      {
+        path: "categoriespage",
+        element: <CategoryPages />
       }
     ],
   },

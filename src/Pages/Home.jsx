@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Cards from "../components/CategoriesCards";
-import axios from 'axios';
+import axios from "axios";
 
 function Home() {
   const [categoriesData, setCategoriesData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchCategories() {
+      setLoading(true);
       try {
         const response = await axios.get(
-          " https://api.escuelajs.co/api/v1/categories",
+          "https://api.escuelajs.co/api/v1/categories",
         );
         setCategoriesData(response.data);
         console.log(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchCategories();
@@ -36,7 +40,11 @@ function Home() {
   return (
     <>
       <Carousel slides={slides} />
-      <Cards categoriesData={categoriesData} isCateogrymsg={false} />
+      <Cards
+        categoriesData={categoriesData}
+        isCateogrymsg={false}
+        isLoading={loading}
+      />
     </>
   );
 }
