@@ -25,23 +25,23 @@ const Products = () => {
 
   return (
     <>
-      <div className="flex">
-        <FilterSideBar />
-        {/* Left Sidebar */}
 
-        {loading ? (
-          <div className="flex justify-center items-center min-h-screen">
+      {loading ? (
+        <div className="flex justify-center items-center min-h-screen">
           <div className="loader"></div>
         </div>
-        ) : (
+      ) : (
+        <div className="flex">
+          <FilterSideBar />
+          {/* Left Sidebar */}
           <div className="flex-1 p-6">
             <h1 className="text-3xl font-bold mb-6">Products</h1>
 
             {/* Product Cards Here */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {productData.map((product) => {
+                return (
 
-            {productData.map((product) => {
-              return (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <img
                       src={product.images[0]}
@@ -73,12 +73,13 @@ const Products = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+
+                );
+              })}
+            </div>
           </div>
+        </div>
         )}
-      </div>
     </>
   );
 };
