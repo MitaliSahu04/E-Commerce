@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import {useState,useEffect} from "react"
-import FilterSideBar from "../components/FilterSideBar";
->>>>>>> main
 import axios from "axios";
 import { useEffect, useState } from "react";
 import FilterSideBar from "../components/FilterSideBar";
@@ -12,17 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 
 const Products = () => {
-<<<<<<< HEAD
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // const { productID } = useParams();
-=======
-const [productData,setProductData]= useState([])
-const [loading,setLoading] = useState(false)
-const navigate = useNavigate() 
-
->>>>>>> main
 
 
   useEffect(() => {
@@ -72,18 +58,8 @@ function HandleChangeToPdp(id){
             <h1 className="text-3xl font-bold mb-6">Products</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<<<<<<< HEAD
               {productData.map((product) => {
                 return (
-=======
-          <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
-          <img
-            src={product.images[0]}
-            alt={product.title}
-            className="w-full h-60 object-cover"
-            // onClick={handleProductClick}
-          />
->>>>>>> main
 
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                    <div  onClick={() => HandleChangeToPdp(product.id)} >
