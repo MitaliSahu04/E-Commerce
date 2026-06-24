@@ -193,4 +193,4 @@ const ProductDetailsPage = () => {
   );
 };
 
-export default ProductDetailPage;
+export default ProductDetailsPage
