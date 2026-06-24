@@ -5,8 +5,8 @@ function Cards({ isCateogrymsg, categoriesData, isLoading }) {
   console.log(categoriesData);
   const navigate = useNavigate();
 
-  function handleShopNow() {
-    navigate("/categoriespage");
+  function handleShopNow(categoryName) {
+    navigate(`/categoriespage/${categoryName}`);
   }
   return (
     <>
@@ -36,6 +36,7 @@ function Cards({ isCateogrymsg, categoriesData, isLoading }) {
             {categoriesData?.map((category) => {
               return (
                 <div
+                  onClick={() => handleShopNow(category.slug)}
                   key={category.id}
                   className="category-card relative rounded-2xl overflow-hidden bg-[#1A1A2E] cursor-pointer h-80 shadow-md"
                 >
@@ -59,7 +60,7 @@ function Cards({ isCateogrymsg, categoriesData, isLoading }) {
                       {category.name}
                     </h2>
                     <button
-                      onClick={handleShopNow}
+                      onClick={() => handleShopNow(category.slug)}
                       className="cta-btn inline-block bg-[#FF6B6B] hover:bg-[#e05555] text-white text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full"
                     >
                       Shop Now →
