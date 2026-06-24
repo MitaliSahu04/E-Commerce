@@ -1,13 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import MainLayout from "./Layout/Layout";
 import Layout from "./Layout/Layout";
+import About from "./Pages/About";
+import Categories from "./Pages/Categories";
+import CategoryPdp from "./Pages/CategoryPdp";
 import Contact from "./pages/Contact";
 import Home from "./Pages/Home";
 import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
 import About from "./Pages/About";
 // import ProductDetailPage from "./Pages/ProductDetailPage";
+import CategoryData from "./Pages/CategoryData";
 
 const router = createBrowserRouter([
   {
@@ -19,25 +22,29 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "products",
+        path: "/products",
         element: <Products />,
       },
       {
-        path: "contact",
-        element: <Contact/>,
+        path: "/contact",
+        element: <Contact />,
       },
       {
-        path: "categories",
+        path: "/categories",
         element: <Categories />,
       },
       {
-        path: "about",
-        element: <About />
+        path: "/about",
+        element: <About />,
       },
-      // {
-      //   path: "product/:id",
-      //   element: <ProductDetailPage />
-      // }
+      {
+        path: "/categoriespage/:slug",
+        element: <CategoryPdp />,
+      },
+      {
+        path: "/categoriespage/:slug/:id",
+        element: <CategoryData />,
+      },
     ],
   },
 ]);
