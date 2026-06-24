@@ -7,6 +7,7 @@ import Home from "./Pages/Home";
 import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
 import About from "./Pages/About";
+<<<<<<< HEAD
 import CategoryPages from "./Pages/CategoryPage";
 import ProductDetailPage from "./Pages/ProductDetailPage"
 import PaymentPage from "./Pages/PaymentPage";
@@ -14,6 +15,9 @@ import ProfilePage from "./Pages/ProfilePage";
 import Login from "./Pages/Login";
 import Logout from "./Pages/Logout";
 import EditProfilePage from "./Pages/EditProfilePage";
+=======
+// import ProductDetailPage from "./Pages/ProductDetailPage";
+>>>>>>> main
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,7 @@ const router = createBrowserRouter([
         path: "about",
         element: <About />
       },
+<<<<<<< HEAD
       {
         path: "categoriespage",
         element: <CategoryPages />
@@ -74,6 +79,12 @@ const router = createBrowserRouter([
         path: "editprofilepage",
         element: <EditProfilePage />
       }
+=======
+      // {
+      //   path: "product/:id",
+      //   element: <ProductDetailPage />
+      // }
+>>>>>>> main
     ],
   },
 ]);

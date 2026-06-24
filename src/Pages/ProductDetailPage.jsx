@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
@@ -55,6 +56,17 @@ const ProductDetailsPage = () => {
   
 
   
+=======
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'   
+import axios from 'axios'
+
+
+const ProductDetailPage = () => {
+
+  
+
+>>>>>>> main
 
   return (
     <div className="bg-gray-100 min-h-screen py-10 px-4">
@@ -193,4 +205,4 @@ const ProductDetailsPage = () => {
   );
 };
 
-export default ProductDetailsPage;
+export default ProductDetailPage;
