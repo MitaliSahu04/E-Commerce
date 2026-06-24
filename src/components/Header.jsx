@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Menu,
   ShoppingCart,
@@ -13,6 +13,13 @@ const Header = () => {
     isActive
       ? "text-blue-600 border-b-2 border-blue-600 pb-1 font-semibold"
       : "text-gray-700 hover:text-blue-600 pb-1 border-b-2 border-transparent transition-all";
+
+const navigate = useNavigate();
+
+
+function HandleProfilePage(){
+navigate("/profilepage");
+}
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -73,7 +80,7 @@ const Header = () => {
               </span>
             </button>
 
-            <button>
+            <button onClick={HandleProfilePage}>
               <User />
             </button>
 

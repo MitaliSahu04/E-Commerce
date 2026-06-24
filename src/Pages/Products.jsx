@@ -1,10 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import FilterSideBar from "../components/FilterSideBar";
+import { useNavigate } from "react-router-dom";
+
 
 const Products = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  // const { productID } = useParams();
+
 
   useEffect(() => {
     async function fetchProductData() {
@@ -22,6 +27,14 @@ const Products = () => {
     }
     fetchProductData();
   }, []);
+
+
+
+function HandleChangeToPdp(id){
+  navigate(`/product/${id}`);
+
+}
+
 
   return (
     <>
@@ -43,6 +56,7 @@ const Products = () => {
                 return (
 
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                   <div  onClick={() => HandleChangeToPdp(product.id)} >
                     <img
                       src={product.images[0]}
                       alt={product.title}
@@ -62,6 +76,10 @@ const Products = () => {
                         {product.description}
                       </p>
 
+                      </div>
+                      </div>
+
+
                       <div className="flex justify-between items-center mt-4">
                         <span className="text-xl font-bold text-green-600">
                           &#8377;{product.price}
@@ -71,7 +89,7 @@ const Products = () => {
                           Add to Cart
                         </button>
                       </div>
-                    </div>
+                    
                   </div>
 
                 );

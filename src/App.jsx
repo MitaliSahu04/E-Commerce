@@ -8,6 +8,12 @@ import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
 import About from "./Pages/About";
 import CategoryPages from "./Pages/CategoryPage";
+import ProductDetailPage from "./Pages/ProductDetailPage"
+import PaymentPage from "./Pages/PaymentPage";
+import ProfilePage from "./Pages/ProfilePage";
+import Login from "./Pages/Login";
+import Logout from "./Pages/Logout";
+import EditProfilePage from "./Pages/EditProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +43,36 @@ const router = createBrowserRouter([
       {
         path: "categoriespage",
         element: <CategoryPages />
+      },
+
+      {
+        path: "product/:productID",
+        element: <ProductDetailPage />
+      },
+
+      {
+        path: "paymentpage",
+        element: <PaymentPage />
+      },
+
+      {
+        path: "profilepage",
+        element: <ProfilePage />
+      },
+
+      {
+        path: "login",
+        element: <Login />
+      },
+
+      {
+        path: "logout",
+        element: <Logout />
+      },
+
+      {
+        path: "editprofilepage",
+        element: <EditProfilePage />
       }
     ],
   },
