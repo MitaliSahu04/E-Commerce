@@ -30,7 +30,7 @@ const navigate = useNavigate()
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://api.escuelajs.co/api/v1/products",
+          "https://api.escuelajs.co/api/v1/products"
         );
         setProductData(response.data);
         setLoading(false);
@@ -39,6 +39,7 @@ const navigate = useNavigate()
         setLoading(false);
       }
     }
+
     fetchProductData();
   }, []);
 
@@ -59,7 +60,6 @@ function HandleChangeToPdp(id){
 
   return (
     <>
-
       {loading ? (
         <div className="flex justify-center items-center min-h-screen">
           <div className="loader"></div>
@@ -67,11 +67,10 @@ function HandleChangeToPdp(id){
       ) : (
         <div className="flex">
           <FilterSideBar />
-          {/* Left Sidebar */}
+
           <div className="flex-1 p-6">
             <h1 className="text-3xl font-bold mb-6">Products</h1>
 
-            {/* Product Cards Here */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 <<<<<<< HEAD
               {productData.map((product) => {
@@ -92,6 +91,7 @@ function HandleChangeToPdp(id){
                       src={product.images[0]}
                       alt={product.title}
                       className="w-full h-60 object-cover"
+                      // onClick={() => handleProductClick(product.id)}
                     />
 
                     <div className="p-4">
@@ -122,13 +122,12 @@ function HandleChangeToPdp(id){
                       </div>
                     
                   </div>
-
                 );
               })}
             </div>
           </div>
         </div>
-        )}
+      )}
     </>
   );
 };
