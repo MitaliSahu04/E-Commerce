@@ -3,18 +3,6 @@ function  FilterSidebar() {
     <aside className="w-72 min-h-screen bg-white border-r border-gray-200 p-6 shadow-sm">
       <h2 className="text-2xl font-bold mb-6">Filters</h2>
 
-      {/* Title Filter */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Search Product
-        </label>
-        <input
-          type="text"
-          placeholder="Enter title..."
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-        />
-      </div>
-
       {/* Price Filter */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">

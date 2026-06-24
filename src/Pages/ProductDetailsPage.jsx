@@ -1,58 +1,97 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'   
-import axios from 'axios'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams,useNavigate } from "react-router-dom";
+
+const ProductDetailsPage = () => {
+  const { productID } = useParams()
+  const [pdppageData, setPdppageData] = useState([])
+  const [pdpImage, setPdpImage] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [count,setcount] = useState(0);
+  const navigate = useNavigate();
 
 
-const ProductDetailPage = () => {
+  useEffect(() => {
+
+    async function fetchpdpdata() {
+      setLoading(true)
+      try {
+        const pdppagefetchdata = await axios.get(`https://api.escuelajs.co/api/v1/products/${productID}`)
+        console.log(pdppagefetchdata.data.images)
+        setPdppageData(pdppagefetchdata.data)
+        setPdpImage(pdppagefetchdata.data.images)
+        setLoading(false)
+      }
+      catch (error) {
+        console.error(error)
+        setLoading(false);
+      }
+    }
+
+    fetchpdpdata()
+
+  }, [productID])
+
+  function HandleChangeIncrement(){
+    setcount(count +1);
+  }
+
+  function HandleChangeDecrement(){
+    if(count <=0){
+      setcount(0);
+    }
+     
+    else{
+      setcount(count-1);
+    }
+    
+  }
+
+
+  function HandleChangePayment(){
+    navigate("/paymentpage");
+  }
 
   
 
+  
 
   return (
     <div className="bg-gray-100 min-h-screen py-10 px-4">
       <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-8">
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          
+
           {/* Product Images */}
           <div>
             <div className="border rounded-xl overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+                src={pdpImage?.[0]}
                 alt="Product"
                 className="w-full h-[500px] object-cover"
               />
             </div>
-
-            <div className="flex gap-4 mt-4">
+          <div className="flex gap-4 mt-4">
+               {pdpImage.map((imaages)=>{
+              return(
               <img
-                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+                src={imaages}
                 alt=""
                 className="w-24 h-24 object-cover border rounded-lg cursor-pointer"
               />
-
-              <img
-                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-                alt=""
-                className="w-24 h-24 object-cover border rounded-lg cursor-pointer"
-              />
-
-              <img
-                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-                alt=""
-                className="w-24 h-24 object-cover border rounded-lg cursor-pointer"
-              />
-            </div>
+              )
+            })}
+              </div>
           </div>
 
           {/* Product Information */}
           <div>
             <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
-              Electronics
+              {pdppageData?.category?.name}
             </span>
 
             <h1 className="text-4xl font-bold mt-4">
-              Premium Wireless Headphones
+              {pdppageData?.title}
             </h1>
 
             <div className="flex items-center gap-3 mt-4">
@@ -67,36 +106,44 @@ const ProductDetailPage = () => {
 
             <div className="mt-6">
               <span className="text-4xl font-bold text-green-600">
-                ₹2,999
+                &#8377;{pdppageData.price - (pdppageData.price * 20) / 100}
               </span>
 
               <span className="ml-4 text-xl text-gray-400 line-through">
-                ₹4,999
+                &#8377;{pdppageData?.price}
               </span>
 
               <span className="ml-3 bg-red-100 text-red-600 px-2 py-1 rounded">
-                40% OFF
+                20% OFF
               </span>
             </div>
 
             <p className="text-gray-600 mt-6 leading-relaxed">
-              Experience premium sound quality with advanced noise
-              cancellation technology. Designed for comfort and
-              long listening sessions.
+              {pdppageData?.description}
             </p>
 
             {/* Quantity */}
             <div className="mt-8">
-              <label className="block font-medium mb-2">
-                Quantity
-              </label>
+              
 
-              <select className="border rounded-lg px-4 py-2">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
+              <div>
+                <button onClick={HandleChangeDecrement}>
+                  −
+                </button>
+
+                &nbsp;
+
+              <span className="border rounded-lg px-4 py-2">
+                {count}
+              </span>
+
+              &nbsp;
+                
+
+                <button onClick={HandleChangeIncrement}>
+                  +
+                </button>
+              </div>
             </div>
 
             {/* Buttons */}
@@ -105,31 +152,31 @@ const ProductDetailPage = () => {
                 Add to Cart
               </button>
 
-              <button className="bg-orange-500 text-white px-8 py-3 rounded-xl hover:bg-orange-600">
+              <button onClick={HandleChangePayment} className="bg-orange-500 text-white px-8 py-3 rounded-xl hover:bg-orange-600">
                 Buy Now
               </button>
             </div>
 
             {/* Specifications */}
-            <div className="mt-10 border-t pt-6">
+            {/* <div className="mt-10 border-t pt-6">
               <h2 className="text-2xl font-semibold mb-4">
-                Specifications
-              </h2>
-
+                {pdppageData.creationAt}
+              </h2> */}
+{/* 
               <ul className="space-y-3 text-gray-600">
                 <li>✔ Bluetooth 5.3 Connectivity</li>
                 <li>✔ Active Noise Cancellation</li>
                 <li>✔ 40 Hours Battery Backup</li>
                 <li>✔ Fast Charging Support</li>
                 <li>✔ Built-in Microphone</li>
-              </ul>
-            </div>
+              </ul> */}
+            {/* </div> */}
           </div>
 
         </div>
 
         {/* Description Section */}
-        <div className="mt-16">
+        {/* <div className="mt-16">
           <h2 className="text-3xl font-bold mb-4">
             Product Description
           </h2>
@@ -140,10 +187,10 @@ const ProductDetailPage = () => {
             music lovers, gamers, and professionals who need
             high-quality sound and long-lasting battery life.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default ProductDetailPage;
+export default ProductDetailsPage

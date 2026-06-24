@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import FilterSideBar from "../components/FilterSideBar";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import FilterSideBar from "../components/FilterSideBar";
+import { useNavigate } from "react-router-dom";
+
 
 const Products = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  // const { productID } = useParams();
+
 
   useEffect(() => {
     async function fetchProductData() {
@@ -26,9 +29,20 @@ const Products = () => {
     fetchProductData();
   }, []);
 
-  // function handleProductClick({ id }) {
-  //   navigate(`/product/${id}`);
-  // }
+
+
+function HandleChangeToPdp(id){
+  navigate(`/product/${id}`);
+
+}
+
+
+// function handleProductClick({id}){
+//   navigate(`/product/${product.id}`)
+
+// }
+
+
 
   return (
     <>
@@ -46,10 +60,9 @@ const Products = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {productData.map((product) => {
                 return (
-                  <div
-                    key={product.id}
-                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
-                  >
+
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                   <div  onClick={() => HandleChangeToPdp(product.id)} >
                     <img
                       src={product.images[0]}
                       alt={product.title}
@@ -70,6 +83,10 @@ const Products = () => {
                         {product.description}
                       </p>
 
+                      </div>
+                      </div>
+
+
                       <div className="flex justify-between items-center mt-4">
                         <span className="text-xl font-bold text-green-600">
                           &#8377;{product.price}
@@ -79,7 +96,7 @@ const Products = () => {
                           Add to Cart
                         </button>
                       </div>
-                    </div>
+                    
                   </div>
                 );
               })}
