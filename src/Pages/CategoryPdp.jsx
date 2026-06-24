@@ -52,7 +52,7 @@ function CategoryPdp() {
   }, [slug]);
 
   function handleCategoryProduct(id) {
-    navigate(`/categoriespage/${slug}/${id}`);
+    navigate(`/product/${id}`);
   }
 
   return (
