@@ -1,19 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import AuthLayout from "./Layout/AuthLayout";
 import Layout from "./Layout/Layout";
 import About from "./Pages/About";
 import Categories from "./Pages/Categories";
 import CategoryPdp from "./Pages/CategoryPdp";
 import Contact from "./pages/Contact";
+import EditProfilePage from "./Pages/EditProfilePage";
 import Home from "./Pages/Home";
-import Products from "./Pages/Products";
-import ProductDetailsPage from "./Pages/ProductDetailsPage";
-import CategoryData from "./Pages/CategoryData";
-import PaymentPage from "./Pages/PaymentPage";
-import ProfilePage from "./Pages/ProfilePage";
 import Login from "./Pages/Login";
 import Logout from "./Pages/Logout";
-import EditProfilePage from "./Pages/EditProfilePage";
+import PaymentPage from "./Pages/PaymentPage";
+import ProductDetailsPage from "./Pages/ProductDetailsPage";
+import Products from "./Pages/Products";
+import ProfilePage from "./Pages/ProfilePage";
+import CreateAccount from "./Pages/CreateAccountPage";
 
 const router = createBrowserRouter([
   {
@@ -45,38 +46,41 @@ const router = createBrowserRouter([
         element: <CategoryPdp />,
       },
       {
-        path: "/categoriespage/:slug/:id",
-        element: <CategoryData />,
-      },
-       {
         path: "product/:productID",
-        element: <ProductDetailsPage />
+        element: <ProductDetailsPage />,
       },
-       {
+      {
         path: "paymentpage",
-        element: <PaymentPage />
-      },
-
-       {
-        path: "profilepage",
-        element: <ProfilePage />
+        element: <PaymentPage />,
       },
 
       {
-        path: "login",
-        element: <Login />
-      },
-
-       {
-        path: "logout",
-        element: <Logout />
+        path: "profilepage",
+        element: <ProfilePage />,
       },
 
       {
         path: "editprofilepage",
-        element: <EditProfilePage />
-      }
+        element: <EditProfilePage />,
+      },
+    ],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
 
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+      {
+        path: "/create-account",
+        element: <CreateAccount />
+      }
     ],
   },
 ]);
