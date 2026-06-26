@@ -3,22 +3,21 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./Layout/AuthLayout";
 import Layout from "./Layout/Layout";
 import About from "./Pages/About";
+import AddressPage from "./Pages/AddressPage";
 import Categories from "./Pages/Categories";
 import CategoryPdp from "./Pages/CategoryPdp";
+import ChangePasswordPage from "./Pages/ChangePasswordPage";
 import Contact from "./pages/Contact";
+import CreateAccount from "./Pages/CreateAccountPage";
+import DashboardPage from "./Pages/Dashboard";
 import EditProfilePage from "./Pages/EditProfilePage";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
-import Logout from "./Pages/Logout";
 import PaymentPage from "./Pages/PaymentPage";
 import ProductDetailsPage from "./Pages/ProductDetailsPage";
 import Products from "./Pages/Products";
 import ProfilePage from "./Pages/ProfilePage";
-import CreateAccount from "./Pages/CreateAccountPage";
-import DashboardPage from "./Pages/Dashboard";
-import AddressPage from "./Pages/AddressPage";
 import SettingsPage from "./Pages/SettingPage";
-import ChangePasswordPage from "./Pages/ChangePasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -97,10 +96,10 @@ const router = createBrowserRouter([
         element: <Login />,
       },
 
-      {
-        path: "/logout",
-        element: <Logout />,
-      },
+      // {
+      //   path: "/logout",
+      //   element: <Logout />,
+      // },
       {
         path: "/create-account",
         element: <CreateAccount />
