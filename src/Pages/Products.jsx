@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import FilterSideBar from "../components/FilterSideBar";
 import { useNavigate } from "react-router-dom";
 import {Heart,} from "lucide-react";
+import { UserContext } from "../context/CreateUserContext";
 
 
 const Products = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { addToCart } = useContext(UserContext);
   // const { productID } = useParams();
 
 
@@ -99,7 +101,9 @@ function HandleChangeToPdp(id){
                        <Heart className="w-6 h-6" />
                        </button>
 
-                        <button className="cta-btn inline-block bg-[#FF6B6B] hover:bg-[#e05555] text-white text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full">
+                        <button 
+                          onClick={() => addToCart(product)}
+                          className="cta-btn inline-block bg-[#FF6B6B] hover:bg-[#e05555] text-white text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full">
                           Add to Cart
                         </button>
                         </div>

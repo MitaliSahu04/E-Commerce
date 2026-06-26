@@ -8,6 +8,7 @@ import MyAccountDropdown from "../components/MyAccountDropdown";
 
 const Header = () => {
   const { user } = useContext(UserContext);
+  const { cartCount } = useContext(UserContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLogin, setlogin] = useState(user);
   const navigate = useNavigate();
