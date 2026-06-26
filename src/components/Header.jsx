@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { UserContext } from "../context/CreateUserContext";
 import axios from "axios";
+import CartSlider from "../components/CartSlider";
 
 const Header = () => {
   const { user } = useContext(UserContext);
@@ -24,6 +25,8 @@ const Header = () => {
   const [showCategories, setShowCategories] = useState(false);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  // const [cartItems, setCartItems] = useState([]);
 
   const navStyle = ({ isActive }) =>
     isActive
@@ -102,6 +105,11 @@ const Header = () => {
     if (lowerTitle.includes("sandal")) return "Sandals";
     return "Others";
   };
+
+  function HandleCartSlider(){
+    // setCartItems([...cartItems, product]);
+    setShowCart(true);
+  }
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -214,13 +222,21 @@ const Header = () => {
             </div>
 
             {/* Wishlist */}
-            <button className="flex flex-col items-center text-gray-700 hover:text-red-500 transition">
+            
+            <button 
+              
+              className="flex flex-col items-center text-gray-700 hover:text-red-500 transition">
               <Heart className="w-6 h-6" />
               <p className="text-xs font-medium mt-1">Wishlist</p>
             </button>
 
+          
+        
             {/* Cart */}
-            <button className="relative flex flex-col items-center text-gray-700 hover:text-green-600 transition">
+            <div>
+            <button 
+              onClick={HandleCartSlider}
+              className="relative flex flex-col items-center text-gray-700 hover:text-green-600 transition">
               <div className="relative">
                 <ShoppingCart className="w-6 h-6" />
                 <span className="absolute -top-2 -right-2 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-[10px] font-semibold">
@@ -229,6 +245,13 @@ const Header = () => {
               </div>
               <p className="text-xs font-medium mt-1">Cart</p>
             </button>
+
+             <CartSlider
+              showCart={showCart}
+              setShowCart={setShowCart}
+              // cartItems={cartItems}
+            />
+            </div>
 
             {/* Mobile Menu */}
             <button className="md:hidden">

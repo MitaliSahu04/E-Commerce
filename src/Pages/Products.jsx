@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import FilterSideBar from "../components/FilterSideBar";
 import { useNavigate } from "react-router-dom";
+import {Heart,} from "lucide-react";
 
 
 const Products = () => {
@@ -74,7 +75,7 @@ function HandleChangeToPdp(id){
                       <span className="text-sm text-gray-500">
                         {product.category.name}
                       </span>
-
+                      
                       <h2 className="text-lg font-semibold mt-2">
                         {product.title}
                       </h2>
@@ -92,9 +93,16 @@ function HandleChangeToPdp(id){
                           &#8377;{product.price}
                         </span>
 
+                        {/* Wishlist */}
+                       <div className="flex items-center gap-3">
+                       <button className="flex flex-col items-center text-gray-700 hover:text-red-500 transition">
+                       <Heart className="w-6 h-6" />
+                       </button>
+
                         <button className="cta-btn inline-block bg-[#FF6B6B] hover:bg-[#e05555] text-white text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full">
                           Add to Cart
                         </button>
+                        </div>
                       </div>
                     
                   </div>
