@@ -1,20 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  Menu,
-  ShoppingCart,
-  Heart,
-  User,
-  Search,
-  LayoutDashboard,
-  MapPin,
-  Settings,
-  KeyRound,
-  LogOut,
-} from "lucide-react";
-import { UserContext } from "../context/CreateUserContext";
 import axios from "axios";
+import { Heart, Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import CartSlider from "../components/CartSlider";
+import { UserContext } from "../context/CreateUserContext";
+import MyAccountDropdown from "../components/MyAccountDropdown";
 
 const Header = () => {
   const { user } = useContext(UserContext);
@@ -27,7 +17,8 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   const navStyle = ({ isActive }) =>
     isActive
@@ -107,10 +98,19 @@ const Header = () => {
     return "Others";
   };
 
-  function HandleCartSlider(){
+  function HandleCartSlider() {
     // setCartItems([...cartItems, product]);
     setShowCart(true);
   }
+
+  const HandleLogout = () => {
+    setShowDropdown(false);
+
+    localStorage.removeItem("Name");
+    localStorage.removeItem("Email");
+
+    navigate("/login");
+  };
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -171,87 +171,86 @@ const Header = () => {
                 <p className="text-xs font-medium mt-1">My Account</p>
               </button>
 
-              {showDropdown && (
-                <div className="absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
-                  <div className="px-4 py-4 bg-gray-50 border-b">
-                    <h3 className="font-semibold text-gray-800">
-                      {localStorage.getItem("Name")}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {localStorage.getItem("Email")}
-                    </p>
-                  </div>
+              <MyAccountDropdown
+                showDropdown={showDropdown}
+                HandleProfilePage={HandleProfilePage}
+                HandleDashboard={HandleDashboard}
+                HandleAddress={HandleAddress}
+                HandleSetting={HandleSetting}
+                HandleChangePassword={HandleChangePassword}
+                HandleLogout={() => {
+                  setShowDropdown(false);
 
                   <button
-                    onClick={HandleProfilePage}
-                    className="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition"
+                    onClick={HandleLogout}
+                    className="flex items-center gap-3 w-full px-4 py-3 text-red-600 hover:bg-red-50 transition"
                   >
-                    <User size={18} /> Profile
-                  </button>
-                  <button
-                    onClick={HandleDashboard}
-                    className="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition"
-                  >
-                    <LayoutDashboard size={18} /> Dashboard
-                  </button>
-                  <button
-                    onClick={HandleAddress}
-                    className="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition"
-                  >
-                    <MapPin size={18} /> Address
-                  </button>
-                  <button
-                    onClick={HandleSetting}
-                    className="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition"
-                  >
-                    <Settings size={18} /> Settings
-                  </button>
-                  <button
-                    onClick={HandleChangePassword}
-                    className="flex items-center gap-3 w-full px-4 py-3 hover:bg-gray-100 transition"
-                  >
-                    <KeyRound size={18} /> Change Password
-                  </button>
-
-                  <hr />
-
-                  <button className="flex items-center gap-3 w-full px-4 py-3 text-red-600 hover:bg-red-50 transition">
-                    <LogOut size={18} /> Sign Out
-                  </button>
-                </div>
-              )}
+                    <LogOut size={18} />
+                    Sign Out
+                  </button>;
+                }}
+              />
             </div>
 
             {/* Wishlist */}
-            
-            <button 
-              
-              className="flex flex-col items-center text-gray-700 hover:text-red-500 transition">
+
+            <button
+              onClick={() => setIsWishlistOpen(true)}
+              className="flex flex-col items-center text-gray-700 hover:text-red-500 transition"
+            >
               <Heart className="w-6 h-6" />
               <p className="text-xs font-medium mt-1">Wishlist</p>
             </button>
 
-          
-        
+            {/* Overlay */}
+            {isWishlistOpen && (
+              <div
+                onClick={() => setIsWishlistOpen(false)}
+                className="fixed inset-0 bg-black/40 z-40"
+              />
+            )}
+
+            {/* Wishlist Sidebar */}
+            <div
+              className={`fixed top-0 right-0 h-screen w-[380px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${
+                isWishlistOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center p-5 border-b">
+                <h2 className="text-xl font-bold">My Wishlist</h2>
+
+                <button onClick={() => setIsWishlistOpen(false)}>
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-5">
+                <p className="text-gray-500">Your wishlist is empty.</p>
+              </div>
+            </div>
+
             {/* Cart */}
             <div>
-            <button 
-              onClick={HandleCartSlider}
-              className="relative flex flex-col items-center text-gray-700 hover:text-green-600 transition">
-              <div className="relative">
-                <ShoppingCart className="w-6 h-6" />
-                <span className="absolute -top-2 -right-2 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-[10px] font-semibold">
-                  {cartCount}
-                </span>
-              </div>
-              <p className="text-xs font-medium mt-1">Cart</p>
-            </button>
+              <button
+                onClick={HandleCartSlider}
+                className="relative flex flex-col items-center text-gray-700 hover:text-green-600 transition"
+              >
+                <div className="relative">
+                  <ShoppingCart className="w-6 h-6" />
+                  <span className="absolute -top-2 -right-2 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-[10px] font-semibold">
+                    2
+                  </span>
+                </div>
+                <p className="text-xs font-medium mt-1">Cart</p>
+              </button>
 
-             <CartSlider
-              showCart={showCart}
-              setShowCart={setShowCart}
-              
-            />
+              <CartSlider
+                showCart={showCart}
+                setShowCart={setShowCart}
+                // cartItems={cartItems}
+              />
             </div>
 
             {/* Mobile Menu */}
