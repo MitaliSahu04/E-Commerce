@@ -18,6 +18,7 @@ import CartSlider from "../components/CartSlider";
 
 const Header = () => {
   const { user } = useContext(UserContext);
+  const { cartCount } = useContext(UserContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLogin, setlogin] = useState(user);
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  // const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   const navStyle = ({ isActive }) =>
     isActive
@@ -240,7 +241,7 @@ const Header = () => {
               <div className="relative">
                 <ShoppingCart className="w-6 h-6" />
                 <span className="absolute -top-2 -right-2 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-[10px] font-semibold">
-                  2
+                  {cartCount}
                 </span>
               </div>
               <p className="text-xs font-medium mt-1">Cart</p>
@@ -249,7 +250,7 @@ const Header = () => {
              <CartSlider
               showCart={showCart}
               setShowCart={setShowCart}
-              // cartItems={cartItems}
+              
             />
             </div>
 

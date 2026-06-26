@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { UserContext } from "../context/CreateUserContext";
+
 const CartSlider = ({ showCart, setShowCart }) => {
+  const { cartItems } = useContext(UserContext);
   return (
     <>
       {showCart && (
@@ -21,18 +25,18 @@ const CartSlider = ({ showCart, setShowCart }) => {
           </button>
         </div>
 
-        {/* <div className="p-4">
+        <div className="p-4">
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
             cartItems.map((item) => (
               <div key={item._id}>
-                <p>{item.name}</p>
+                <p>{item.title}</p>
                 <p>₹{item.price}</p>
               </div>
             ))
           )}
-        </div> */}
+        </div>
       </div>
     </>
   );
