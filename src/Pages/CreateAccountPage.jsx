@@ -1,5 +1,8 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import  { UserContext } from "../context/CreateUserContext";
 export default function CreateAccount() {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -7,7 +10,8 @@ export default function CreateAccount() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  const { setUser } = useContext(UserContext)
+  const navigate = useNavigate();
   const update = (field) => (e) => {
     setForm((p) => ({ ...p, [field]: e.target.value }));
     setErrors((p) => ({ ...p, [field]: null }));
@@ -19,7 +23,7 @@ export default function CreateAccount() {
     if (!form.email) errs.email = "Email is required.";
     else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Enter a valid email.";
     if (!form.password) errs.password = "Password is required.";
-    else if (form.password.length < 8) errs.password = "Minimum 8 characters.";
+    else if (form.password.length < 6) errs.password = "Minimum 8 characters.";
     if (!form.confirm) errs.confirm = "Please confirm your password.";
     else if (form.confirm !== form.password) errs.confirm = "Passwords don't match.";
     return errs;
@@ -30,9 +34,32 @@ export default function CreateAccount() {
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setErrors({});
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
+    const payload ={
+        name: form.name,
+        email: form.email,
+        password: form.confirm,
+        avatar: "https://picsum.photos/800"
+    }
+    
+    try{
+      setLoading(true);
+     const response = await axios.post("https://api.escuelajs.co/api/v1/users",
+      payload
+     )
+     setLoading(false);
+     setSuccess(true);
+     localStorage.setItem("Name",response.data.name)
+     localStorage.setItem("Email",response.data.email)
+     setUser(true)
+     toast.success("Account Created Successfully")
+     setForm({ name: "", email: "",  password: "", confirm: ""})
+     navigate("/")
+    }catch(error){
+     console.log(error)
+     setLoading(false);
+    }
+    
     setLoading(false);
-    setSuccess(true);
   };
 
   const strength = (() => {
