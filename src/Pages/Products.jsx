@@ -12,6 +12,39 @@ const Products = () => {
   const navigate = useNavigate();
   const { addToCart } = useContext(UserContext);
   // const { productID } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 9;
+  const lastProductIndex = currentPage * productsPerPage;
+  const firstProductIndex = lastProductIndex - productsPerPage;
+  const currentProducts = productData.slice(
+  firstProductIndex,
+  lastProductIndex
+  );
+  const totalPages = Math.ceil(
+  productData.length / productsPerPage
+  );
+ const visiblePages = 3;
+
+let startPage = Math.max(
+  1,
+  currentPage - Math.floor(visiblePages / 2)
+);
+
+let endPage = startPage + visiblePages - 1;
+
+if (endPage > totalPages) {
+  endPage = totalPages;
+  startPage = Math.max(
+    1,
+    endPage - visiblePages + 1
+  );
+}
+
+const pageNumbers = [];
+
+for (let i = startPage; i <= endPage; i++) {
+  pageNumbers.push(i);
+}
 
 
   useEffect(() => {
@@ -39,6 +72,10 @@ function HandleChangeToPdp(id){
 
 }
 
+const handlePageChange = (page) => {
+  setCurrentPage(page);
+};
+
 
 // function handleProductClick({id}){
 //   navigate(`/product/${product.id}`)
@@ -54,6 +91,7 @@ function HandleChangeToPdp(id){
           <div className="loader"></div>
         </div>
       ) : (
+
         <div className="flex">
           <FilterSideBar />
 
@@ -61,7 +99,7 @@ function HandleChangeToPdp(id){
             <h1 className="text-3xl font-bold mb-6">Products</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {productData.map((product) => {
+              {currentProducts.map((product) => {
                 return (
 
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
@@ -113,6 +151,37 @@ function HandleChangeToPdp(id){
                 );
               })}
             </div>
+            <div className="flex justify-center items-center gap-2 mt-8">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className="px-4 py-2 border rounded disabled:opacity-50"
+            >
+              Prev
+           </button>
+
+  {pageNumbers.map((page) => (
+    <button
+      key={page}
+      onClick={() => setCurrentPage(page)}
+      className={`px-4 py-2 border rounded ${
+        currentPage === page
+          ? "bg-black text-white"
+          : "bg-white"
+      }`}
+    >
+      {page}
+    </button>
+  ))}
+
+  <button
+    disabled={currentPage === totalPages}
+    onClick={() => setCurrentPage(currentPage + 1)}
+    className="px-4 py-2 border rounded disabled:opacity-50"
+  >
+    Next
+  </button>
+</div>
           </div>
         </div>
       )}

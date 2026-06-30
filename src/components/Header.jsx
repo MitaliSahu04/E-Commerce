@@ -240,7 +240,7 @@ const Header = () => {
                 <div className="relative">
                   <ShoppingCart className="w-6 h-6" />
                   <span className="absolute -top-2 -right-2 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-[10px] font-semibold">
-                    2
+                   { cartCount }
                   </span>
                 </div>
                 <p className="text-xs font-medium mt-1">Cart</p>
