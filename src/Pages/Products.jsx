@@ -10,18 +10,24 @@ const Products = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { addToCart } = useContext(UserContext);
+  const { addToCart, debouncedSearch} = useContext(UserContext);
   // const { productID } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
   const lastProductIndex = currentPage * productsPerPage;
   const firstProductIndex = lastProductIndex - productsPerPage;
-  const currentProducts = productData.slice(
-  firstProductIndex,
-  lastProductIndex
-  );
+ const filteredProducts = productData.filter(product =>
+    product.title
+        .toLowerCase()
+        .includes(debouncedSearch.trim().toLowerCase())
+);
+
+const currentProducts = filteredProducts.slice(
+    firstProductIndex,
+    lastProductIndex
+);
   const totalPages = Math.ceil(
-  productData.length / productsPerPage
+  filteredProducts.length / productsPerPage
   );
  const visiblePages = 3;
 
@@ -45,6 +51,10 @@ const pageNumbers = [];
 for (let i = startPage; i <= endPage; i++) {
   pageNumbers.push(i);
 }
+
+useEffect(() => {
+    setCurrentPage(1);
+}, [debouncedSearch]);
 
 
   useEffect(() => {

@@ -19,6 +19,20 @@ const Header = () => {
   const [showCart, setShowCart] = useState(false);
   // const [cartItems, setCartItems] = useState([]);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const {
+    search,
+    setSearch,
+    debouncedSearch,
+    setDebouncedSearch
+} = useContext(UserContext);
+
+useEffect(() => {
+    const timer = setTimeout(() => {
+        setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+}, [search]);
 
   const navStyle = ({ isActive }) =>
     isActive
@@ -156,6 +170,8 @@ const Header = () => {
               type="text"
               placeholder="Search products..."
               className="outline-none ml-2 w-full"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
