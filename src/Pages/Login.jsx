@@ -1,14 +1,20 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink ,useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loginData, setLoginData] = useState({
+  email: "",
+  password: "",
+});
 
   const validate = () => {
     const errs = {};
@@ -32,6 +38,45 @@ export default function Login() {
     setSuccess(true);
   };
 
+  const handleLogin = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    email:loginData.email,
+    password:loginData.password
+  }
+  console.log(payload)
+  const token = localStorage.getItem("token")
+
+  setLoading(true);
+
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/api/login",
+       payload,{
+        headers: {
+          Authorization: `Bearer: ${token}`
+        }
+       }
+    );
+
+    console.log(response.data);
+    navigate("/");
+
+  } catch (error) {
+    console.log(error.response.data);
+    setLoading(false);
+  }
+};
+
+
+   const handleChange = (e) => {
+  setLoginData({
+    ...loginData,
+    [e.target.name]: e.target.value,
+  });
+};
+
   return (
     <>
       <link
@@ -46,7 +91,7 @@ export default function Login() {
         .btn-google:hover { background-color: #f9fafb !important; }
         .link:hover { text-decoration: underline; }
       `}</style>
-
+     
       <div
         className="min-h-screen bg-gray-50 flex items-center justify-center px-4"
         style={{ fontFamily: "'Inter', sans-serif" }}
@@ -92,11 +137,13 @@ export default function Login() {
             <input
               type="email"
               placeholder="you@example.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setErrors((p) => ({ ...p, email: null }));
-              }}
+              value={loginData.email}
+               onChange={(e) =>
+    setLoginData({
+      ...loginData,
+      email: e.target.value,
+    })
+  }
               className="w-full rounded-lg px-3.5 py-2.5 text-sm text-gray-900 bg-white border transition-colors"
               style={{ borderColor: errors.email ? "#ef4444" : "#e5e7eb" }}
             />
@@ -119,11 +166,13 @@ export default function Login() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setErrors((p) => ({ ...p, password: null }));
-                }}
+                value={loginData.password}
+                 onChange={(e) =>
+    setLoginData({
+      ...loginData,
+      password: e.target.value,
+    })
+  }
                 className="w-full rounded-lg px-3.5 py-2.5 pr-10 text-sm text-gray-900 bg-white border transition-colors"
                 style={{ borderColor: errors.password ? "#ef4444" : "#e5e7eb" }}
               />
@@ -165,7 +214,8 @@ export default function Login() {
 
           {/* Sign In */}
           <button
-            onClick={handleSubmit}
+            type="submit"
+            onClick={handleLogin}
             disabled={loading}
             className="btn-primary w-full rounded-lg py-2.5 text-sm font-medium text-white transition-colors"
             style={{
