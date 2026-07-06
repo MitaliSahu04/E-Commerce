@@ -6,6 +6,10 @@ import {
   KeyRound,
   LogOut,
 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../utils/logout";
+import LogoutModal from "./LogoutModal";
 
 const MyAccountDropdown = ({
   showDropdown,
@@ -14,8 +18,9 @@ const MyAccountDropdown = ({
   HandleAddress,
   HandleSetting,
   HandleChangePassword,
-  HandleLogout,
 }) => {
+  const [openLogout, setOpenLogout] = useState(false);
+  const navigate = useNavigate();
   if (!showDropdown) return null;
 
   return (
@@ -25,9 +30,7 @@ const MyAccountDropdown = ({
           {localStorage.getItem("FirstName")} {localStorage.getItem("LastName")}
         </h3>
 
-        <p className="text-sm text-gray-500">
-          {localStorage.getItem("Email")}
-        </p>
+        <p className="text-sm text-gray-500">{localStorage.getItem("Email")}</p>
       </div>
 
       <button
@@ -73,12 +76,20 @@ const MyAccountDropdown = ({
       <hr />
 
       <button
-        onClick={HandleLogout}
+        onClick={() => setOpenLogout(true)}
         className="flex items-center gap-3 w-full px-4 py-3 text-red-600 hover:bg-red-50 transition"
       >
         <LogOut size={18} />
         Sign Out
       </button>
+      <LogoutModal
+        isOpen={openLogout}
+        onClose={() => setOpenLogout(false)}
+        onConfirm={() => {
+          setOpenLogout(false);
+          logout(navigate);
+        }}
+      />
     </div>
   );
 };
