@@ -117,16 +117,6 @@ useEffect(() => {
     setShowCart(true);
   }
 
-  const HandleLogout = () => {
-    setShowDropdown(false);
-
-    localStorage.removeItem("FirstName");
-    localStorage.removeItem("LastName");
-    localStorage.removeItem("Email");
-
-    navigate("/login");
-  };
-
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 relative">
@@ -195,17 +185,6 @@ useEffect(() => {
                 HandleAddress={HandleAddress}
                 HandleSetting={HandleSetting}
                 HandleChangePassword={HandleChangePassword}
-                HandleLogout={() => {
-                  setShowDropdown(false);
-
-                  <button
-                    onClick={HandleLogout}
-                    className="flex items-center gap-3 w-full px-4 py-3 text-red-600 hover:bg-red-50 transition"
-                  >
-                    <LogOut size={18} />
-                    Sign Out
-                  </button>;
-                }}
               />
             </div>
 
