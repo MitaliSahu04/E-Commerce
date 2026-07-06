@@ -22,7 +22,7 @@ const MyAccountDropdown = ({
     <div className="absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
       <div className="px-4 py-4 bg-gray-50 border-b">
         <h3 className="font-semibold text-gray-800">
-          {localStorage.getItem("Name")}
+          {localStorage.getItem("FirstName")} {localStorage.getItem("LastName")}
         </h3>
 
         <p className="text-sm text-gray-500">

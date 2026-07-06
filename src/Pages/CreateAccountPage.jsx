@@ -69,8 +69,8 @@ export default function CreateAccount() {
       const registerData = response.data
       setLoading(false);
       setSuccess(true);
-      localStorage.setItem("First name", registerData.data.firstName);
-      localStorage.setItem("Last name", registerData.data.lastName);
+      localStorage.setItem("FirstName", registerData.data.firstName);
+      localStorage.setItem("LastName", registerData.data.lastName);
       localStorage.setItem("Email", registerData.data.email);
       localStorage.setItem("CustGuid",registerData.data.custGuId)
       setUser(true);

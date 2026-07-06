@@ -120,7 +120,8 @@ useEffect(() => {
   const HandleLogout = () => {
     setShowDropdown(false);
 
-    localStorage.removeItem("Name");
+    localStorage.removeItem("FirstName");
+    localStorage.removeItem("LastName");
     localStorage.removeItem("Email");
 
     navigate("/login");

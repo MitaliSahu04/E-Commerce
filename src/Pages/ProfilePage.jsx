@@ -25,7 +25,7 @@ function ProfilePage() {
                 />
               </div>
               <div className="mt-4 text-center sm:text-left sm:mt-0 flex-1">
-                <h1 className="text-2xl font-bold text-gray-900">Alex Morgan</h1>
+                <h1 className="text-2xl font-bold text-gray-900">{localStorage.getItem("FirstName")} {localStorage.getItem("LastName")}</h1>
                 <p className="text-sm text-gray-500">Member since October 2024</p>
               </div>
               <div className="mt-4 sm:mt-0 flex justify-center">
