@@ -1,9 +1,12 @@
-import { useContext, useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/CreateUserContext";
+
 export default function CreateAccount() {
+  const { setUser } = useApp();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     lastname: "",
@@ -16,8 +19,6 @@ export default function CreateAccount() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { setUser } = useContext(useApp);
-  const navigate = useNavigate();
   const update = (field) => (e) => {
     setForm((p) => ({ ...p, [field]: e.target.value }));
     setErrors((p) => ({ ...p, [field]: null }));
@@ -54,7 +55,6 @@ export default function CreateAccount() {
     };
     const token = localStorage.getItem("token");
 
-
     try {
       setLoading(true);
       const response = await axios.post(
@@ -66,13 +66,13 @@ export default function CreateAccount() {
           },
         },
       );
-      const registerData = response.data
+      const registerData = response.data;
       setLoading(false);
       setSuccess(true);
       localStorage.setItem("FirstName", registerData.data.firstName);
       localStorage.setItem("LastName", registerData.data.lastName);
       localStorage.setItem("Email", registerData.data.email);
-      localStorage.setItem("CustGuid",registerData.data.custGuId)
+      localStorage.setItem("CustGuid", registerData.data.custGuId);
       setUser(true);
       toast.success("Account Created Successfully");
       setForm({ name: "", email: "", password: "", confirm: "" });
