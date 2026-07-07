@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/CreateUserContext";
+import { useApp } from "../context/CreateUserContext";
 export default function CreateAccount() {
   const [form, setForm] = useState({
     name: "",
@@ -16,7 +16,7 @@ export default function CreateAccount() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(useApp);
   const navigate = useNavigate();
   const update = (field) => (e) => {
     setForm((p) => ({ ...p, [field]: e.target.value }));

@@ -1,16 +1,14 @@
 import axios from "axios";
 import { Heart, Menu, Search, ShoppingCart, User, X } from "lucide-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import CartSlider from "../components/CartSlider";
-import { UserContext } from "../context/CreateUserContext";
 import MyAccountDropdown from "../components/MyAccountDropdown";
+import { useApp } from "../context/CreateUserContext";
 
 const Header = () => {
-  const { user } = useContext(UserContext);
-  const { cartCount } = useContext(UserContext);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isLogin, setlogin] = useState(user);
+
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const [showCategories, setShowCategories] = useState(false);
@@ -20,19 +18,22 @@ const Header = () => {
   // const [cartItems, setCartItems] = useState([]);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const {
+    user,
+    cartCount,
     search,
     setSearch,
     debouncedSearch,
-    setDebouncedSearch
-} = useContext(UserContext);
+    setDebouncedSearch,
+  } = useApp();
+  const [isLogin, setlogin] = useState(user);
 
-useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
-        setDebouncedSearch(search);
+      setDebouncedSearch(search);
     }, 500);
 
     return () => clearTimeout(timer);
-}, [search]);
+  }, [search]);
 
   const navStyle = ({ isActive }) =>
     isActive
@@ -236,7 +237,7 @@ useEffect(() => {
                 <div className="relative">
                   <ShoppingCart className="w-6 h-6" />
                   <span className="absolute -top-2 -right-2 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-[10px] font-semibold">
-                   { cartCount }
+                    {cartCount}
                   </span>
                 </div>
                 <p className="text-xs font-medium mt-1">Cart</p>

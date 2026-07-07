@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import { UserContext } from "../context/CreateUserContext";
+import { useApp } from "../context/CreateUserContext";
 
 const CartSlider = ({ showCart, setShowCart }) => {
-  const { cartItems } = useContext(UserContext);
+  const { cartItems } = useApp();
+
   return (
     <>
       {showCart && (
@@ -20,9 +20,7 @@ const CartSlider = ({ showCart, setShowCart }) => {
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-xl font-semibold">My Cart</h2>
 
-          <button onClick={() => setShowCart(false)}>
-            ✕
-          </button>
+          <button onClick={() => setShowCart(false)}>✕</button>
         </div>
 
         <div className="p-4">
