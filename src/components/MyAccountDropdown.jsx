@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../utils/logout";
 import LogoutModal from "./LogoutModal";
+import { useApp } from "../context/CreateUserContext";
 
 const MyAccountDropdown = ({
   showDropdown,
@@ -19,6 +20,7 @@ const MyAccountDropdown = ({
   HandleSetting,
   HandleChangePassword,
 }) => {
+  const { user } = useApp();
   const [openLogout, setOpenLogout] = useState(false);
   const navigate = useNavigate();
   if (!showDropdown) return null;
@@ -27,10 +29,9 @@ const MyAccountDropdown = ({
     <div className="absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
       <div className="px-4 py-4 bg-gray-50 border-b">
         <h3 className="font-semibold text-gray-800">
-          {localStorage.getItem("FirstName")} {localStorage.getItem("LastName")}
+          {user?.firstName} {user?.lastName}
         </h3>
-
-        <p className="text-sm text-gray-500">{localStorage.getItem("Email")}</p>
+        <p className="text-sm text-gray-500">{user?.email}</p>
       </div>
 
       <button

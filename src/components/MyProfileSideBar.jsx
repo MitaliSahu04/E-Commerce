@@ -7,10 +7,12 @@ import {
   KeyRound,
   LogOut,
 } from "lucide-react";
+import { useApp } from "../context/CreateUserContext";
 
 const MyProfileSideBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useApp();
   const currentKey = location.pathname.replace("/", "");
 
   const btnStyle = (key) =>
@@ -21,19 +23,15 @@ const MyProfileSideBar = () => {
         : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"
     }`;
 
-  console.log("first name: ", localStorage.getItem("FirstName"));
-  console.log("last name: ", localStorage.getItem("LastName"));
-  console.log("Email: ", localStorage.getItem("Email"));
-
   return (
     <aside className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col">
       {/* User Info */}
       <div className="px-4 py-4 bg-gray-50 border-b border-gray-200">
         <h3 className="font-semibold text-gray-800">
-          {localStorage.getItem("FirstName")} {localStorage.getItem("LastName")}
+          {user?.firstName} {user?.lastName}
         </h3>
 
-        <p className="text-sm text-gray-500">{localStorage.getItem("Email") || "user@example.com"}</p>
+        <p className="text-sm text-gray-500">{user?.email}</p>
       </div>
 
       {/* Nav Items */}

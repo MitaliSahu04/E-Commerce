@@ -3,32 +3,19 @@ import { useEffect, useState, useContext } from "react";
 import FilterSideBar from "../components/FilterSideBar";
 import { useNavigate } from "react-router-dom";
 import {Heart,} from "lucide-react";
-import { UserContext } from "../context/CreateUserContext";
-import { getProducts } from "../services/ProductApi";
+import { useApp } from "../context/CreateUserContext";
 
 
 const Products = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { addToCart, debouncedSearch} = useContext(UserContext);
+  const { addToCart, debouncedSearch} = useContext(useApp);
   // const { productID } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
   const lastProductIndex = currentPage * productsPerPage;
   const firstProductIndex = lastProductIndex - productsPerPage;
- const [filters, setFilters] = useState({
-    categoryId: "",
-    price_min: "",
-    price_max: "",
-});
-
-const [pendingFilters, setPendingFilters] = useState({
-    electronicsUnder1000: false,
-    fashionAbove500: false,
-    homeUnder5000: false,
-});
-
  const filteredProducts = productData.filter(product =>
     product.title
         .toLowerCase()
@@ -69,19 +56,25 @@ useEffect(() => {
     setCurrentPage(1);
 }, [debouncedSearch]);
 
-const fetchProducts = async (currentFilters = filters) => {
-  setLoading(true);
 
-  const data = await getProducts(currentFilters);
+  useEffect(() => {
+    async function fetchProductData() {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          "https://api.escuelajs.co/api/v1/products"
+        );
+        setProductData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    }
 
-  setProductData(data);
+    fetchProductData();
+  }, []);
 
-  setLoading(false);
-};
-
-useEffect(() => {
-    fetchProducts();
-}, []);
 
 
 function HandleChangeToPdp(id){
@@ -91,61 +84,6 @@ function HandleChangeToPdp(id){
 
 const handlePageChange = (page) => {
   setCurrentPage(page);
-};
-
-const applyFilters = () => {
-  let newFilters = { ...filters };
-
-  if (pendingFilters.electronicsUnder1000) {
-    newFilters = {
-      categoryId: "2",
-      price_min: 0,
-      price_max: 1000,
-    };
-  }
-
-  if (pendingFilters.fashionAbove500) {
-    newFilters = {
-      categoryId: "1",
-      price_min: 500,
-      price_max: "",
-    };
-  }
-
-  if (pendingFilters.homeUnder5000) {
-    newFilters = {
-      categoryId: "3",
-      price_min: 0,
-      price_max: 5000,
-    };
-  }
-
-  setFilters(newFilters);
-
-  // Reset pagination
-  setCurrentPage(1);
-
-  fetchProducts(newFilters);
-};
-
-const resetFilters = () => {
-
-    const defaultFilters = {
-        categoryId: "",
-        price_min: "",
-        price_max: "",
-    };
-
-    setFilters(defaultFilters);
-
-    setPendingFilters({
-        electronicsUnder1000:false,
-        fashionAbove500:false,
-        homeUnder5000:false,
-    });
-
-    setCurrentPage(1);
-fetchProducts(defaultFilters);
 };
 
 
@@ -165,14 +103,7 @@ fetchProducts(defaultFilters);
       ) : (
 
         <div className="flex">
-          <FilterSideBar
-           filters={filters}
-          setFilters={setFilters}
-          pendingFilters={pendingFilters}
-          setPendingFilters={setPendingFilters}
-          applyFilters={applyFilters}
-          resetFilters={resetFilters}
-          />
+          <FilterSideBar />
 
           <div className="flex-1 p-6">
             <h1 className="text-3xl font-bold mb-6">Products</h1>

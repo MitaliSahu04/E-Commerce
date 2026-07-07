@@ -1,11 +1,20 @@
-import { createContext, useState } from "react";
+// src/context/AppContext.jsx
 
-export const UserContext = createContext();
+import { createContext, useContext, useState } from "react";
 
-export default function UserProvider({ children }) {
-  const [user, setUser] = useState("");
+const AppContext = createContext();
+
+export const useApp = () => useContext(AppContext);
+
+export default function AppProvider({ children }) {
+  // User
+  const [user, setUser] = useState(null);
+
+  // Cart
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+
+  // Search
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -15,20 +24,25 @@ export default function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{
-      user,
-      setUser,
-      cartCount,
-      cartItems,
-      addToCart,
-      search,
-      setSearch,
-      debouncedSearch,
-      setDebouncedSearch
-    }}>
+    <AppContext.Provider
+      value={{
+        // User
+        user,
+        setUser,
 
+        // Cart
+        cartItems,
+        cartCount,
+        addToCart,
+
+        // Search
+        search,
+        setSearch,
+        debouncedSearch,
+        setDebouncedSearch,
+      }}
+    >
       {children}
-
-    </UserContext.Provider>
+    </AppContext.Provider>
   );
 }

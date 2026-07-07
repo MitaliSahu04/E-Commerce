@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink ,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
@@ -10,11 +10,11 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loginData, setLoginData] = useState({
-  email: "",
-  password: "",
-});
+    email: "",
+    password: "",
+  });
 
-  const validate = () => {
+ const validate = () => {
   const errs = {};
 
   if (!loginData.email) {
@@ -26,45 +26,80 @@ export default function Login() {
   if (!loginData.password) {
     errs.password = "Password is required.";
   } else if (loginData.password.length < 6) {
-    errs.password = "Minimum 6 characters.";
+    errs.password = "Minimum 8 characters.";
   }
 
   return errs;
 };
 
+  const handleSubmit = async () => {
+    const errs = validate();
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 1500));
+    setLoading(false);
+    setSuccess(true);
+  };
 
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const payload = {
-    email:loginData.email,
-    password:loginData.password
-  }
-  console.log(payload)
-  const token = localStorage.getItem("token")
-  console.log(token)
+    const errs = validate();
 
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
 
-  try {
+    setErrors({});
     setLoading(true);
-    const response = await axios.post(
-      "http://localhost:3000/api/login",
-       payload,{
-        headers: {
-          Authorization: `Bearer: ${token}`,
-        },
-       }
-    );
 
-    console.log(response.data);
-    navigate("/");
+    const payload = {
+      email: loginData.email,
+      password: loginData.password,
+    };
 
-  } catch (error) {
-    console.log(error.response.data);
-    setLoading(false);
-  }
-};
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/login",
+        payload,
+      );
 
+      console.log(response.data);
+
+      // Save JWT Token
+      localStorage.setItem("token", response.data.token);
+
+      localStorage.setItem("FirstName", response.data.data.firstName);
+      localStorage.setItem("LastName", response.data.data.lastName);
+      localStorage.setItem("Email", response.data.data.email);
+      localStorage.setItem("custGuId", response.data.data.custGuId);
+
+      setLoading(false);
+      setSuccess(true);
+
+      navigate("/");
+    } catch (error) {
+      console.log(error.response?.data);
+
+      setLoading(false);
+
+      setErrors({
+        general: error.response?.data?.message || "Login failed.",
+      });
+    }
+  };
+
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <>
@@ -80,7 +115,7 @@ export default function Login() {
         .btn-google:hover { background-color: #f9fafb !important; }
         .link:hover { text-decoration: underline; }
       `}</style>
-     
+
       <div
         className="min-h-screen bg-gray-50 flex items-center justify-center px-4"
         style={{ fontFamily: "'Inter', sans-serif" }}
@@ -127,12 +162,12 @@ export default function Login() {
               type="email"
               placeholder="you@example.com"
               value={loginData.email}
-               onChange={(e) =>
-    setLoginData({
-      ...loginData,
-      email: e.target.value,
-    })
-  }
+              onChange={(e) =>
+                setLoginData({
+                  ...loginData,
+                  email: e.target.value,
+                })
+              }
               className="w-full rounded-lg px-3.5 py-2.5 text-sm text-gray-900 bg-white border transition-colors"
               style={{ borderColor: errors.email ? "#ef4444" : "#e5e7eb" }}
             />
@@ -156,12 +191,12 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={loginData.password}
-                 onChange={(e) =>
-    setLoginData({
-      ...loginData,
-      password: e.target.value,
-    })
-  }
+                onChange={(e) =>
+                  setLoginData({
+                    ...loginData,
+                    password: e.target.value,
+                  })
+                }
                 className="w-full rounded-lg px-3.5 py-2.5 pr-10 text-sm text-gray-900 bg-white border transition-colors"
                 style={{ borderColor: errors.password ? "#ef4444" : "#e5e7eb" }}
               />
