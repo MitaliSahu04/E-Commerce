@@ -3,8 +3,6 @@ import { NavLink ,useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -17,26 +15,23 @@ export default function Login() {
 });
 
   const validate = () => {
-    const errs = {};
-    if (!email) errs.email = "Enter a valid email.";
-    else if (!/\S+@\S+\.\S+/.test(email)) errs.email = "Enter a valid email.";
-    if (!password) errs.password = "Password is required.";
-    else if (password.length < 6) errs.password = "Minimum 6 characters.";
-    return errs;
-  };
+  const errs = {};
 
-  const handleSubmit = async () => {
-    const errs = validate();
-    if (Object.keys(errs).length > 0) {
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setLoading(false);
-    setSuccess(true);
-  };
+  if (!loginData.email) {
+    errs.email = "Enter a valid email.";
+  } else if (!/\S+@\S+\.\S+/.test(loginData.email)) {
+    errs.email = "Enter a valid email.";
+  }
+
+  if (!loginData.password) {
+    errs.password = "Password is required.";
+  } else if (loginData.password.length < 6) {
+    errs.password = "Minimum 6 characters.";
+  }
+
+  return errs;
+};
+
 
   const handleLogin = async (e) => {
   e.preventDefault();
@@ -47,16 +42,17 @@ export default function Login() {
   }
   console.log(payload)
   const token = localStorage.getItem("token")
+  console.log(token)
 
-  setLoading(true);
 
   try {
+    setLoading(true);
     const response = await axios.post(
       "http://localhost:3000/api/login",
        payload,{
         headers: {
-          Authorization: `Bearer: ${token}`
-        }
+          Authorization: `Bearer: ${token}`,
+        },
        }
     );
 
@@ -69,13 +65,6 @@ export default function Login() {
   }
 };
 
-
-   const handleChange = (e) => {
-  setLoginData({
-    ...loginData,
-    [e.target.name]: e.target.value,
-  });
-};
 
   return (
     <>
