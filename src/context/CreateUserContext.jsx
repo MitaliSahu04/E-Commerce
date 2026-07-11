@@ -11,15 +11,16 @@ export default function AppProvider({ children }) {
   // Cart
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  
 
   // Search
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const addToCart = (product) => {
-    setCartItems((prev) => [...prev, product]);
-    setCartCount((prev) => prev + 1);
-  };
+  // const addToCart = (product) => {
+  //   setCartItems((prev) => [...prev, product]);
+  //   setCartCount((prev) => prev + 1);
+  // };
 
   return (
     <AppContext.Provider
@@ -31,7 +32,7 @@ export default function AppProvider({ children }) {
         // Cart
         cartItems,
         cartCount,
-        addToCart,
+        // addToCart,
 
         // Search
         search,

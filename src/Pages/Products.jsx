@@ -9,53 +9,12 @@ import { useApp } from "../context/CreateUserContext";
 const Products = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { addToCart, debouncedSearch} = useContext(useApp);
-  // const { productID } = useParams();
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 9;
-  const lastProductIndex = currentPage * productsPerPage;
-  const firstProductIndex = lastProductIndex - productsPerPage;
- const filteredProducts = productData.filter(product =>
-    product.title
-        .toLowerCase()
-        .includes(debouncedSearch.trim().toLowerCase())
-);
-
-const currentProducts = filteredProducts.slice(
-    firstProductIndex,
-    lastProductIndex
-);
-  const totalPages = Math.ceil(
-  filteredProducts.length / productsPerPage
-  );
- const visiblePages = 3;
-
-let startPage = Math.max(
-  1,
-  currentPage - Math.floor(visiblePages / 2)
-);
-
-let endPage = startPage + visiblePages - 1;
-
-if (endPage > totalPages) {
-  endPage = totalPages;
-  startPage = Math.max(
-    1,
-    endPage - visiblePages + 1
-  );
-}
-
-const pageNumbers = [];
-
-for (let i = startPage; i <= endPage; i++) {
-  pageNumbers.push(i);
-}
-
-useEffect(() => {
-    setCurrentPage(1);
-}, [debouncedSearch]);
-
+  const [filter, setFilter] = useState({
+    min_price: 0,
+    max_price: 0,
+    category : "",
+    search : "",
+  })
 
   useEffect(() => {
     async function fetchProductData() {
@@ -82,15 +41,7 @@ function HandleChangeToPdp(id){
 
 }
 
-const handlePageChange = (page) => {
-  setCurrentPage(page);
-};
 
-
-// function handleProductClick({id}){
-//   navigate(`/product/${product.id}`)
-
-// }
 
 
 
@@ -103,13 +54,13 @@ const handlePageChange = (page) => {
       ) : (
 
         <div className="flex">
-          <FilterSideBar />
+          <FilterSideBar filter={filter}  setFilter={setFilter} categoryNameShow={true}/>
 
           <div className="flex-1 p-6">
             <h1 className="text-3xl font-bold mb-6">Products</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currentProducts.map((product) => {
+              {productData.map((product) => {
                 return (
 
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
@@ -150,7 +101,7 @@ const handlePageChange = (page) => {
                        </button>
 
                         <button 
-                          onClick={() => addToCart(product)}
+                        
                           className="cta-btn inline-block bg-[#FF6B6B] hover:bg-[#e05555] text-white text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full">
                           Add to Cart
                         </button>
@@ -161,37 +112,7 @@ const handlePageChange = (page) => {
                 );
               })}
             </div>
-            <div className="flex justify-center items-center gap-2 mt-8">
-            <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-              className="px-4 py-2 border rounded disabled:opacity-50"
-            >
-              Prev
-           </button>
-
-  {pageNumbers.map((page) => (
-    <button
-      key={page}
-      onClick={() => setCurrentPage(page)}
-      className={`px-4 py-2 border rounded ${
-        currentPage === page
-          ? "bg-black text-white"
-          : "bg-white"
-      }`}
-    >
-      {page}
-    </button>
-  ))}
-
-  <button
-    disabled={currentPage === totalPages}
-    onClick={() => setCurrentPage(currentPage + 1)}
-    className="px-4 py-2 border rounded disabled:opacity-50"
-  >
-    Next
-  </button>
-</div>
+           
           </div>
         </div>
       )}

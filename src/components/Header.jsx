@@ -27,13 +27,13 @@ const Header = () => {
   } = useApp();
   const [isLogin, setlogin] = useState(user);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 500);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setDebouncedSearch(search);
+  //   }, 500);
 
-    return () => clearTimeout(timer);
-  }, [search]);
+  //   return () => clearTimeout(timer);
+  // }, [search]);
 
   const navStyle = ({ isActive }) =>
     isActive
