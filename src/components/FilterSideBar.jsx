@@ -1,94 +1,69 @@
-function FilterSidebar({ filters,
-                          setFilters,
-                          pendingFilters,
-                          setPendingFilters,
-                          applyFilters,
-                          resetFilters,
-                         
-                        })  {
+import { useEffect, useState } from "react";
+import { CategoryListNameData } from "../services/filterapi";
+
+function FilterSidebar({filter, setFilter,categoryNameShow}) {
+  const [categoryList , setCategoryList] = useState([])
+
+    
+  useEffect(()=>{
+  const fetchCategories = async () => {
+    try {
+      const categoryData = await CategoryListNameData();
+      console.log(filter);
+
+      setCategoryList(categoryData.data); // or categoryData.data depending on your function
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchCategories();
+  },[])
+
+
 
   return (
     <aside className="w-72 min-h-screen bg-white border-r border-gray-200 p-6 shadow-sm">
       <h2 className="text-2xl font-bold mb-6">Filters</h2>
 
-      {/* Price Filter */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Price
-        </label>
-        <input
-          type="number"
-          placeholder="Enter price"
-          name="price_max"
-          min="0"
-          value={filters.price_max}
-          onChange={(e) =>
-            setFilters({
-            ...filters,
-            price_max: Math.max(0, Number(e.target.value)),
-          })
-          }
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-        />
-      </div>
-
       {/* Price Range */}
       <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">
-          Price Range
-        </h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-3">Price Range</h3>
 
         <div className="space-y-2">
           <label className="flex items-center gap-2">
             <input
-             type="radio"
-             name="priceRange"
-            onChange={() =>
-               setFilters({
-              ...filters,
-               price_min: 0,
-               price_max: 500,
-             })
-            }
-          />
+              type="radio"
+              name="priceRange"
+             
+            />
             <span>₹0 - ₹500</span>
           </label>
 
           <label className="flex items-center gap-2">
-            <input type="radio" name="priceRange"
-               onChange={() =>
-               setFilters({
-               ...filters,
-              price_min: 500,
-              price_max: 1000,
-              })
-            }
+            <input
+              type="radio"
+              name="priceRange"
+          
+              
             />
             <span>₹500 - ₹1000</span>
           </label>
 
           <label className="flex items-center gap-2">
-            <input type="radio" name="priceRange"
-             onChange={() =>
-             setFilters({
-            ...filters,
-            price_min: 1000,
-            price_max: 5000,
-            })
-          }
+            <input
+              type="radio"
+              name="priceRange"
+              
             />
             <span>₹1000 - ₹5000</span>
           </label>
 
           <label className="flex items-center gap-2">
-            <input type="radio" name="priceRange"
-             onChange={() =>
-             setFilters({
-            ...filters,
-            price_min: 5000,
-            price_max: "",
-             })
-          }
+            <input
+              type="radio"
+              name="priceRange"
+             
             />
             <span>₹5000+</span>
           </label>
@@ -96,73 +71,26 @@ function FilterSidebar({ filters,
       </div>
 
       {/* Category Filter */}
-      <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">
-          Category
-        </h3>
-
-        <div className="space-y-2">
-          <label className="flex items-center gap-2">
-            <input type="radio"
-                    name="categoryId"
-                    value="1"
-                    checked={filters.categoryId === "1"}
-                    onChange={(e) =>
-                      setFilters({
-                      ...filters,
-                     categoryId: e.target.value,
-                    })
-        }
-            />
-            <span>Clothes</span>
-          </label>
-
-          <label className="flex items-center gap-2">
-            <input type="radio"
-             name="categoryId"
-             value="2"
-             checked={filters.categoryId === "2"}
-             onChange={(e) =>
-             setFilters({
-                ...filters,
-                categoryId: e.target.value,
-              })
-           }
-            />
-            <span>Electronics</span>
-          </label>
-
-          <label className="flex items-center gap-2">
-            <input type="radio"
-             name="categoryId"
-             value="3"
-             checked={filters.categoryId === "3"}
-             onChange={(e) =>
-             setFilters({
-                ...filters,
-                categoryId: e.target.value,
-              })
-            }
-            />
-            <span>Furniture</span>
-          </label>
-
-          <label className="flex items-center gap-2">
-            <input type="radio"
-             name="categoryId"
-             value="4"
-             checked={filters.categoryId === "4"}
-             onChange={(e) =>
-             setFilters({
-                ...filters,
-                categoryId: e.target.value,
-            })
-            }
-            />
-            <span>Shoes</span>
-          </label>
+      {categoryNameShow ? <div className="mb-6">
+        <h3 className="text-sm font-medium text-gray-700 mb-3">Category</h3>
+       
+     <div className="space-y-2">
+       {Array.isArray(categoryList) &&
+  categoryList.map((category) => (
+    <div key={category.id}>
+      <label className="flex items-center gap-2">
+        <input
+          type="radio"
+          name="categoryId"
+          value={category.id}
+        />
+        <span>{category.name}</span>
+      </label>
+    </div>
+  ))}
         </div>
-      </div>
+      </div> : null }
+      
 
       {/* Combination Filters */}
       <div className="mb-6">
@@ -172,46 +100,31 @@ function FilterSidebar({ filters,
 
         <div className="space-y-2">
           <label className="flex items-center gap-2">
-            <input type="radio"
-                name="comboFilter"
-                checked={pendingFilters.electronicsUnder1000}
-                onChange={()=>
-                setPendingFilters({
-                electronicsUnder1000:true,
-                fashionAbove500:false,
-                homeUnder5000:false
-        })
-    }
+            <input
+              type="radio"
+              name="comboFilter"
+              checked={""}
+              
             />
             <span>Electronics Under ₹1000</span>
           </label>
 
           <label className="flex items-center gap-2">
-            <input type="radio"
-             name="comboFilter"
-             checked={pendingFilters.fashionAbove500}
-             onChange={(e)=>
-             setPendingFilters({
-              electronicsUnder1000:false,
-              fashionAbove500:true,
-              homeUnder5000:false
-            })
-            }
+            <input
+              type="radio"
+              name="comboFilter"
+              
+             
             />
-            <span>Clothes Above ₹500  </span>
+            <span>Clothes Above ₹500 </span>
           </label>
 
           <label className="flex items-center gap-2">
-            <input type="radio"
-            name="comboFilter"
-            checked={pendingFilters.homeUnder5000}
-            onChange={(e)=>
-             setPendingFilters({
-            electronicsUnder1000:false,
-            fashionAbove500:false,
-            homeUnder5000:true
-            })
-          }
+            <input
+              type="radio"
+              name="comboFilter"
+             
+              
             />
             <span>Furniture Under ₹5000</span>
           </label>
@@ -221,22 +134,21 @@ function FilterSidebar({ filters,
       {/* Buttons */}
       <div className="flex flex-col gap-3">
         <button
-          onClick={applyFilters}
-          className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800">
+          
+          className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800"
+        >
           Apply Filters
         </button>
 
-        
-
-        <button 
-          onClick={resetFilters}
+        <button
+         
           className="w-full border border-gray-300 py-2 rounded-lg hover:bg-gray-100"
-          >
+        >
           Reset Filters
         </button>
       </div>
     </aside>
   );
-};
+}
 
 export default FilterSidebar;
