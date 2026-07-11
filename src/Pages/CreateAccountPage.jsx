@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/CreateUserContext";
+import { RegisterApi } from "../services/loginRegistrationApi";
 
 export default function CreateAccount() {
   const { setUser } = useApp();
@@ -57,22 +58,15 @@ export default function CreateAccount() {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        "http://localhost:3000/api/register",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const registerData = response.data;
+      const response = await RegisterApi(payload);
+
+      console.log(response.data);
       setLoading(false);
       setSuccess(true);
-      localStorage.setItem("FirstName", registerData.data.firstName);
-      localStorage.setItem("LastName", registerData.data.lastName);
-      localStorage.setItem("Email", registerData.data.email);
-      localStorage.setItem("CustGuid", registerData.data.custGuId);
+      localStorage.setItem("FirstName", response.data.firstName);
+      localStorage.setItem("LastName", response.data.lastName);
+      localStorage.setItem("Email", response.data.email);
+      localStorage.setItem("custGuId", response.data.custGuId);
       setUser(true);
       toast.success("Account Created Successfully");
       setForm({ name: "", email: "", password: "", confirm: "" });

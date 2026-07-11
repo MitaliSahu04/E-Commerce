@@ -23,10 +23,10 @@ export async function PriceRange(min, max) {
   }
 }
 
-export async function CategorySlug(category_id) {
+export async function CategorySlug(slug) {
   try {
     const res = await axios.get(
-      `${Constants.urls.baseUrlV2}${Constants.endPoints.filterApi}?categoryId =${category_id}`,
+      `${Constants.urls.baseUrlV2}${Constants.endPoints.filterApi}?slug=${slug}`,
     );
     return res.data;
   } catch (error) {
@@ -51,7 +51,7 @@ export async function CategoryListNameData() {
     const res = await axios.get( `${Constants.urls.baseUrlV2}${Constants.endPoints.categoryData}`,
     );
 
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }

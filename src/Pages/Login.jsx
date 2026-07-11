@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginApi } from "../services/loginRegistrationApi";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -64,20 +65,17 @@ export default function Login() {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/login",
-        payload,
-      );
+      const response = await LoginApi(payload)
 
       console.log(response.data);
 
       // Save JWT Token
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.token);
 
-      localStorage.setItem("FirstName", response.data.data.firstName);
-      localStorage.setItem("LastName", response.data.data.lastName);
-      localStorage.setItem("Email", response.data.data.email);
-      localStorage.setItem("custGuId", response.data.data.custGuId);
+      localStorage.setItem("FirstName", response.data.firstName);
+      localStorage.setItem("LastName", response.data.lastName);
+      localStorage.setItem("Email", response.data.email);
+      localStorage.setItem("custGuId", response.data.custGuId);
 
       setLoading(false);
       setSuccess(true);
