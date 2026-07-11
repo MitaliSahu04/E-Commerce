@@ -1,41 +1,36 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import FilterSideBar from "../components/FilterSideBar";
-import { ProductPageApi } from "../services/ProductApi";
+import React, { useEffect, useState } from "react";
+import FilterSidebar from "../components/FilterSideBar";
 import ProductCard from "../components/ProductCard";
 import Pagination from "../components/Pagination";
-
-const Products = () => {
-  const [productData, setProductData] = useState([]);
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { SearchProduct } from "../services/filterapi";
+function SearchPage() {
+  const { search } = useParams();
   const [loading, setLoading] = useState(false);
+  const [productData, setProductData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState({
     min_price: 0,
     max_price: 0,
     category: "",
     search: "",
   });
-  const [currentPage, setCurrentPage] = useState(1);
   const perPage = 9;
-
-  useEffect(() => {
-    async function fetchProductData() {
-      setLoading(true);
-      try {
-        const response = await ProductPageApi();
-        console.log(ProductPageApi());
-        setProductData(response);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    }
-
-    fetchProductData();
-  }, []);
-
   const lastIndex = currentPage * perPage;
   const firstIndex = lastIndex - perPage;
+
+  useEffect(() => {
+    async function searchProduct() {
+      try {
+        const searchData = await SearchProduct(search);
+        setProductData(searchData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    searchProduct()
+  }, [search]);
 
   return (
     <>
@@ -45,7 +40,7 @@ const Products = () => {
         </div>
       ) : (
         <div className="flex">
-          <FilterSideBar
+          <FilterSidebar
             filter={filter}
             setFilter={setFilter}
             categoryNameShow={true}
@@ -74,6 +69,5 @@ const Products = () => {
       )}
     </>
   );
-};
-
-export default Products;
+}
+export default SearchPage;

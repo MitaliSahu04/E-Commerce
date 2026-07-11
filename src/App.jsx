@@ -18,6 +18,7 @@ import ProductDetailsPage from "./Pages/ProductDetailsPage";
 import Products from "./Pages/Products";
 import ProfilePage from "./Pages/ProfilePage";
 import SettingsPage from "./Pages/SettingPage";
+import SearchPage from "./Pages/SearchPage"
 
 const router = createBrowserRouter([
   {
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
         element: <AddressPage />,
       },
 
-       {
+      {
         path: "settingpage",
         element: <SettingsPage />,
       },
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "changepasswordpage",
         element: <ChangePasswordPage />,
+      },
+      {
+        path: "search/:search",
+        element: <SearchPage />
       },
     ],
   },
@@ -102,8 +107,8 @@ const router = createBrowserRouter([
       // },
       {
         path: "/create-account",
-        element: <CreateAccount />
-      }
+        element: <CreateAccount />,
+      },
     ],
   },
 ]);
