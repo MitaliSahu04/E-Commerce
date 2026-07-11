@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import FilterSidebar from "../components/FilterSideBar";
 import axios from "axios";
+import { CategorySlug } from "../services/filterapi";
 
 function CategoryPdp() {
   const { slug } = useParams();
@@ -15,34 +16,11 @@ function CategoryPdp() {
       setProducts([]);
 
       try {
-        // Fetch all categories
-        const response = await axios.get(
-          "https://api.escuelajs.co/api/v1/categories",
-        );
-
-        const categories = response.data;
-
-        // Find category by slug
-        const selectedCategory = categories.find(
-          (category) => category.slug === slug,
-        );
-
-        console.log("Selected Category:", selectedCategory);
-
-        if (!selectedCategory) {
-          setProducts([]);
-          return;
-        }
-
-        // Fetch products of the selected category
-        const productRes = await axios.get(
-          `https://api.escuelajs.co/api/v1/products/?categoryId=${selectedCategory.id}`,
-        );
-
-        setProducts(productRes.data);
+        const productRes = await CategorySlug(slug)
+        console.log(productRes)
+        setProducts(productRes);
       } catch (error) {
         console.error("Error fetching products:", error);
-        setProducts([]);
       } finally {
         setLoading(false);
       }

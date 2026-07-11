@@ -28,10 +28,10 @@ const MyProfileSideBar = () => {
       {/* User Info */}
       <div className="px-4 py-4 bg-gray-50 border-b border-gray-200">
         <h3 className="font-semibold text-gray-800">
-          {user?.firstName} {user?.lastName}
+          {localStorage.getItem("FirstName")} {localStorage.getItem("LastName")}
         </h3>
 
-        <p className="text-sm text-gray-500">{user?.email}</p>
+        <p className="text-sm text-gray-500">{localStorage.getItem("Email")}</p>
       </div>
 
       {/* Nav Items */}

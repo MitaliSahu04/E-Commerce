@@ -6,11 +6,10 @@ const Constants = {
 
   endPoints: {
     filterApi: "/api/v1/products/",
-    categoryData:"/api/v1/categories/"
-
+    categoryData:"/api/v1/categories/",
+    userLogin: "/api/login/",
+    registeredUser: "/api/register/"
   },
-
-  
 };
 
 export default Constants;

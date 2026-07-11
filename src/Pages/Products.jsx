@@ -54,7 +54,13 @@ const lastIndex = currentPage * perPage;
       ) : (
 
         <div className="flex">
-          <FilterSideBar filter={filter}  setFilter={setFilter} categoryNameShow={true}/>
+          <FilterSideBar
+            filter={filter}
+            setFilter={setFilter}
+            categoryNameShow={true}
+            combineCategory={true}
+          />
+
           <div className="flex-1 p-6">
             <h1 className="text-3xl font-bold mb-6">Products</h1>
 

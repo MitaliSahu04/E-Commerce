@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cards from "../components/CategoriesCards";
 import axios from "axios";
+import { CategoryListNameData } from "../services/filterapi";
 
 const Categories = () => {
   const [categoriesData, setCategoriesData] = useState([]);
@@ -10,11 +11,9 @@ const Categories = () => {
     async function fetchCategories() {
       setLoading(true);
       try {
-        const response = await axios.get(
-          " https://api.escuelajs.co/api/v1/categories",
-        );
-        setCategoriesData(response.data);
-        console.log(response.data);
+        const response = await CategoryListNameData();
+        setCategoriesData(response);
+        console.log(response);
       } catch (error) {
         console.log(error);
       } finally {
@@ -26,7 +25,11 @@ const Categories = () => {
 
   return (
     <>
-      <Cards categoriesData={categoriesData} isCateogrymsg={true} isLoading={loading}/>
+      <Cards
+        categoriesData={categoriesData}
+        isCateogrymsg={true}
+        isLoading={loading}
+      />
     </>
   );
 };
