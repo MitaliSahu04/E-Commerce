@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Cards from "../components/CategoriesCards";
 import axios from "axios";
+import { HomePageApi } from "../services/HomePageApi";
 
 function Home() {
   const [categoriesData, setCategoriesData] = useState([]);
@@ -11,11 +12,8 @@ function Home() {
     async function fetchCategories() {
       setLoading(true);
       try {
-        const response = await axios.get(
-          "https://api.escuelajs.co/api/v1/categories",
-        );
-        setCategoriesData(response.data);
-        console.log(response.data);
+        const response = await HomePageApi();
+        setCategoriesData(response);
       } catch (error) {
         console.log(error);
       } finally {

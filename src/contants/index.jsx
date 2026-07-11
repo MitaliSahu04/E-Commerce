@@ -9,6 +9,8 @@ const Constants = {
     categoryData:"/api/v1/categories/"
 
   },
+
+  
 };
 
 export default Constants;

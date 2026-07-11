@@ -1,19 +1,11 @@
 import axios from "axios";
+import Constants from "../contants";
 
-const BASE_URL = "https://api.escuelajs.co/api/v1/products";
-
-export const getProducts = async (filters= {}) => {
-    console.log(filters)
-  try {
-
-    const response = await axios.get(BASE_URL, {
-      params: filters,
-    });
-    console.log(response.config.url);
-console.log(response.config.params);
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+export async function ProductPageApi() {
+   try {
+        const res = await axios.get(`${Constants.urls.baseUrlV2}${Constants.endPoints.filterApi}`);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
