@@ -15,7 +15,7 @@ function Pagination(props){
 
     return (
      <>
-     {!props.productData.length ===0 ? 
+     {props.productData.length > 0 &&(
   <div className="flex justify-center items-center gap-2 mt-6">
   <button
     onClick={prePage}
@@ -47,8 +47,7 @@ function Pagination(props){
   >
     Next
   </button>
-  </div>
-  : null}
+  </div>)}
     
     </>
     )
